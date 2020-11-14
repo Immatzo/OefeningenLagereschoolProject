@@ -1,0 +1,38 @@
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    background-color: #565656;
+    color: white;
+}
+
+#footertext {
+    margin-left: 2%;
+}
+
+.options {
+    margin-left: 2%;
+}
+
+.suboptions {
+    margin-top: 5px;
+}
+
+.numberinput {
+    width: 50px;
+    text-align: center;
+    color: red;
+}
+
+.subtitle {
+    font-size: x-large;
+    margin-left: 2px;
+}
+
+.subtitlediv{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    margin-left: 1%;
+}

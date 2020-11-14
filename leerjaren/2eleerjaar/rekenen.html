@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Oefeningen rekenen</title>
+        <link href="../../css/style.css" rel="stylesheet" type="text/css">
+        <script src="js/wiskunde2eleerjaar.js" type="text/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!--<link type="image/x-icon" rel="icon" type="image/png" href="favicon.png" />-->
+    </head>
+    
+    <body>
+        <header>
+            <h1 class="maintitle">Oefeningen rekenen</h1>
+        </header>
+        <section id="aantalOefeningen">
+            <normaltext>Aantal oefeningen: </normaltext>
+            <input class="numberinput" id="aantalOefeningenInput"/>
+        </section>
+        <section id="optelling">
+            <div class="subtitlediv">
+                <input type="checkbox" class="optellingoefeninginput" id="optellingoefeninginput" name="optellingoefeninginput">
+                <label for="optellingoefeninginput" class="subtitle">Optelling</label>
+            </div>
+            <div class="options">
+
+                <normaltext>Som van </normaltext>
+                <input class="numberinput" id="optellenminimum"/>
+                <normaltext> tot </normaltext>
+                <input class="numberinput" id="optellenmaximum"/>
+                <normaltext> met </normaltext>
+                <input class="numberinput" id="optellenaantalparams"/>
+                <normaltext> parameters.</normaltext><br>
+
+                <input type="checkbox" class="options suboptions" id="optelleneerstegetaltiental" name="someerstegetaltientalcheckbox">
+                <label for="optelleneerstegetaltiental"> Eerste getal is een tiental</label>
+                <input type="checkbox" class="options suboptions" id="optellentweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                <label for="optellentweedegetaltiental"> Tweede getal is een tiental</label><br>
+            </div>
+        </section>
+        <section id="verschil">
+            <div class="subtitlediv">
+                <input type="checkbox" class="verschiloefeninginput" id="verschiloefeninginput" name="verschiloefeninginput">
+                <label for="verschiloefeninginput" class="subtitle">Verschil</label>
+            </div>
+            <div class="options">
+
+                <normaltext>Verschil van </normaltext>
+                <input class="numberinput" id="verschilminimum"/>
+                <normaltext> tot </normaltext>
+                <input class="numberinput" id="verschilmaximum"/>
+                <normaltext> met </normaltext>
+                <input class="numberinput" id="verschilaantalparams"/>
+                <normaltext> parameters.</normaltext><br>
+
+                <input type="checkbox" class="options suboptions" id="verschileerstegetaltiental" name="someerstegetaltientalcheckbox">
+                <label for="verschileerstegetaltiental"> Eerste getal is een tiental</label>
+                <input type="checkbox" class="options suboptions" id="verschiltweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                <label for="verschiltweedegetaltiental"> Tweede getal is een tiental</label><br>
+            </div>
+        </section>
+        <br>
+        <button onclick="handleStart()">
+            Start!
+        </button>
+    </body>
+    <footer>
+        <p id="footertext">&#169; Copyright by Elise Van Gestel 2020</p>
+    </footer>
+</html>
