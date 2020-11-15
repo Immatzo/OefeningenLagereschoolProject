@@ -46,3 +46,15 @@ footer {
     color: black;
     font-size: x-large;
 }
+
+.error {
+    color: red;
+}
+
+#optellingerror {
+    margin-left: 2%;
+}
+
+#verschilerror {
+    margin-left: 2%;
+}

@@ -27,17 +27,18 @@
                 <div class="options">
 
                     <normaltext>Optelling met uitkomst tussen </normaltext>
-                    <input value="0" class="numberinput" id="optellenminimum"/>
+                    <input value="0" class="numberinput" id="optellingminimum"/>
                     <normaltext> en </normaltext>
-                    <input value="100" class="numberinput" id="optellenmaximum"/>
+                    <input value="100" class="numberinput" id="optellingmaximum"/>
                     <normaltext> met </normaltext>
-                    <input value="2" class="numberinput" id="optellenaantalparams"/>
+                    <input value="2" class="numberinput" id="optellingaantalparams"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
 
-                    <input type="checkbox" class="options suboptions" id="optelleneerstegetaltiental" name="someerstegetaltientalcheckbox">
-                    <label for="optelleneerstegetaltiental"> Eerste getal is een tiental</label>
-                    <input type="checkbox" class="options suboptions" id="optellentweedegetaltiental" name="somtweedegetaltientalcheckbox">
-                    <label for="optellentweedegetaltiental"> Tweede getal is een tiental</label><br>
+                    <input type="checkbox" class="options suboptions" id="optellingeerstegetaltiental" name="someerstegetaltientalcheckbox">
+                    <label for="optellingeerstegetaltiental"> Eerste getal is een tiental</label>
+                    <input type="checkbox" class="options suboptions" id="optellingtweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                    <label for="optellingtweedegetaltiental"> Tweede getal is een tiental</label><br>
+                    <p id="optellingerror" class="error"></p>
                 </div>
             </section>
             <section id="verschil">
@@ -59,6 +60,7 @@
                     <label for="verschileerstegetaltiental"> Eerste getal is een tiental</label>
                     <input type="checkbox" class="options suboptions" id="verschiltweedegetaltiental" name="somtweedegetaltientalcheckbox">
                     <label for="verschiltweedegetaltiental"> Tweede getal is een tiental</label><br>
+                    <p id="verschilerror" class="error"></p>
                 </div>
             </section>
             <br>
