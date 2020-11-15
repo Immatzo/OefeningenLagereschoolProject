@@ -1,4 +1,7 @@
+var summarydiv;
 function handleStart(){
+    $('#insertdiv').html('');
+    console.clear();
     let aantal = document.getElementById("aantalOefeningenInput").value;
     let optellentrue = document.getElementById("optellingoefeninginput").checked;
     let verschiltrue = document.getElementById("verschiloefeninginput").checked;
@@ -21,8 +24,35 @@ function handleStart(){
             getVerschil();
         }
     }
-    console.log("uitgevoerd")
+    hide("summary");
+    // document.getElementById("insertdiv").style.visibility = "visible";
+    // $('#summarydiv').hide()
+    console.log("uitgevoerd");
+    // $('#insertdiv').append('<button onclick="loadsummary()"> Back! </button>');
+    // summarydiv = document.getElementById("summarydiv").innerHTML;
+    // $('#summarydiv').html('');
 };
+
+function hide(div){
+    if(div == "summary"){
+        document.getElementById("insertdiv").style.visibility = "visible";
+        document.getElementById("execdiv").style.visibility = "visible";
+        document.getElementById("summarydiv").style.visibility = "hidden";
+        document.getElementById("summarydiv").style.display = "none";
+    } else if(div == "insert"){
+        document.getElementById("insertdiv").style.visibility = "hidden";
+        document.getElementById("summarydiv").style.visibility = "visible";
+        document.getElementById("execdiv").style.visibility = "hidden";
+        document.getElementById("summarydiv").style.display = "inline";
+    }
+}
+
+function loadsummary(){
+    hide("insert");
+    // $('#insertdiv').html('');
+    // $('#summarydiv').html(summarydiv);
+    console.clear();
+}
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -38,31 +68,173 @@ function getOptelling(){
     let param1 = 0;
     let param2 = 0;
     let uitkomst = 0;
-    if(aantalparams === 2){
-        do {
-            param1 = getRndInteger(minimum, maximum);
-            param2 = getRndInteger(minimum, maximum);
-            uitkomst = param1 + param2;
-        } while(uitkomst < minimum || uitkomst > maximum);
-        console.log(param1 + " + " + param2 + " = " + uitkomst);
-    } else if(aantalparams === 3){
-        let param3 = 0;
-        do{
-            param1 = getRndInteger(minimum, maximum);
-            param2 = getRndInteger(minimum, maximum);
-            param3 = getRndInteger(minimum, maximum);
-            uitkomst = param1 + param2 + param3;
-        } while(uitkomst < minimum || uitkomst > maximum);
-        console.log(param1 + " + " + param2 + " + " + param3 + " = " + uitkomst);
+    if(minimum < maximum){
+        if(aantalparams === 2){
+            do {
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                uitkomst = param1 + param2;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " + " + param2 + " = " + uitkomst);
+            $('#insertdiv').append('<p>' + param1 + " + " + param2 + " = " + uitkomst + '</p>');
+        } else if(aantalparams === 3){
+            let param3 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                uitkomst = param1 + param2 + param3;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " + " + param2 + " + " + param3 + " = " + uitkomst);
+        } else if(aantalparams === 4){
+            let param3 = 0;
+            let param4 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                param4 = getRndInteger(minimum, maximum);
+                uitkomst = param1 + param2 + param3 + param4;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " = " + uitkomst);
+        } else if(aantalparams === 5){
+            let param3 = 0;
+            let param4 = 0;
+            let param5 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                param4 = getRndInteger(minimum, maximum);
+                param5 = getRndInteger(minimum, maximum);
+                uitkomst = param1 + param2 + param3 + param4 + param5;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " + " + param5 + " = " + uitkomst);
+        }
+    } else {
+        console.log("Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Optelling met uitkomst tussen 0 en 100 met 2 parameters: 46 + 7 = 53");
+        // error
     }
 }
 
 function getVerschil(){
     console.log("verschil");
-    let minimum = document.getElementById("verschilminimum").value;
-    let maximum = document.getElementById("verschilmaximum").value;
-    let aantalparams = document.getElementById("verschilaantalparams").value;
+    let minimum = parseInt(document.getElementById("verschilminimum").value);
+    let maximum = parseInt(document.getElementById("verschilmaximum").value);
+    let aantalparams = parseInt(document.getElementById("verschilaantalparams").value);
     let eerstegetaltiental = document.getElementById("verschileerstegetaltiental").checked;
     let tweedegetaltiental = document.getElementById("verschiltweedegetaltiental").checked;
-    
+    let param1 = 0;
+    let param2 = 0;
+    let uitkomst = 0;
+    if(minimum < maximum){
+        if(aantalparams === 2){
+            do {
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                uitkomst = param1 - param2;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " - " + param2 + " = " + uitkomst);
+        } else if(aantalparams === 3){
+            let param3 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                uitkomst = param1 - param2 - param3;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " - " + param2 + " - " + param3 + " = " + uitkomst);
+        } else if(aantalparams === 4){
+            let param3 = 0;
+            let param4 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                param4 = getRndInteger(minimum, maximum);
+                uitkomst = param1 - param2 - param3 - param4;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " - " + param2 + " - " + param3 + " - " + param4 + " = " + uitkomst);
+        } else if(aantalparams === 5){
+            let param3 = 0;
+            let param4 = 0;
+            let param5 = 0;
+            do{
+                if(eerstegetaltiental === true){
+                    param1 = getRndInteger(0, 10) * 10;
+                } else {
+                    param1 = getRndInteger(minimum, maximum);
+                }
+                if(tweedegetaltiental === true){
+                    param2 = getRndInteger(0, 10) * 10;
+                } else {
+                    param2 = getRndInteger(minimum, maximum);
+                }
+                param3 = getRndInteger(minimum, maximum);
+                param4 = getRndInteger(minimum, maximum);
+                param5 = getRndInteger(minimum, maximum);
+                uitkomst = param1 - param2 - param3 - param4 - param5;
+            } while(uitkomst < minimum || uitkomst > maximum);
+            console.log(param1 + " - " + param2 + " - " + param3 + " - " + param4 + " - " + param5 + " = " + uitkomst);
+        }
+    } else {
+        console.log("Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Verschil met uitkomst tussen 0 en 100 met 2 parameters: 85 - 63 = 22");
+        // error
+    }
 }
