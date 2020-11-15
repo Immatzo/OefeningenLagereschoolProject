@@ -1,7 +1,7 @@
-var summarydiv;
+var oplossingen = [];
 function handleStart(){
+    oplossingen = [];
     $('#insertdiv').html('');
-    console.clear();
     let aantal = document.getElementById("aantalOefeningenInput").value;
     let optellentrue = document.getElementById("optellingoefeninginput").checked;
     let verschiltrue = document.getElementById("verschiloefeninginput").checked;
@@ -10,55 +10,58 @@ function handleStart(){
         for(let i = 0; i < aantal; i++){
             let soort = getRndInteger(1, 2); // 1 = optelling, 2 = verschil
             if(soort === 1){
-                getOptelling();
+                oplossingen.push(getOptelling(i));
             } else if(soort === 2){
-                getVerschil();
+                oplossingen.push(getVerschil(i));
             }
         }
     } else if (optellentrue === true){
         for(let i = 0; i < aantal; i++){
-            getOptelling();
+            oplossingen.push(getOptelling(i));
         }
     } else if (verschiltrue === true){
         for(let i = 0; i < aantal; i++){
-            getVerschil();
+            oplossingen.push(getVerschil(i));
         }
     }
     hide("summary");
-    // document.getElementById("insertdiv").style.visibility = "visible";
-    // $('#summarydiv').hide()
+    oplossingen.forEach(element => console.log(element));
     console.log("uitgevoerd");
-    // $('#insertdiv').append('<button onclick="loadsummary()"> Back! </button>');
-    // summarydiv = document.getElementById("summarydiv").innerHTML;
-    // $('#summarydiv').html('');
 };
 
 function hide(div){
     if(div == "summary"){
-        document.getElementById("insertdiv").style.visibility = "visible";
-        document.getElementById("execdiv").style.visibility = "visible";
-        document.getElementById("summarydiv").style.visibility = "hidden";
         document.getElementById("summarydiv").style.display = "none";
+        document.getElementById("oefeningdiv").style.display = "inline";
     } else if(div == "insert"){
-        document.getElementById("insertdiv").style.visibility = "hidden";
-        document.getElementById("summarydiv").style.visibility = "visible";
-        document.getElementById("execdiv").style.visibility = "hidden";
         document.getElementById("summarydiv").style.display = "inline";
+        document.getElementById("oefeningdiv").style.display = "none";
     }
 }
 
 function loadsummary(){
     hide("insert");
-    // $('#insertdiv').html('');
-    // $('#summarydiv').html(summarydiv);
-    console.clear();
 }
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 };
 
-function getOptelling(){
+function handleCheck(){
+    let uitkomst = 0;
+    for (let i = 0; i < oplossingen.length; i++){
+        uitkomst = parseInt(document.getElementById("oplossing"+i).value);
+        if(oplossingen[i] === uitkomst){
+            console.log("juist");
+            document.getElementById("oplossing"+i).style.backgroundColor = "lightgreen";
+        } else {
+            console.log("fout");
+            document.getElementById("oplossing"+i).style.backgroundColor = "red";
+        }
+    }
+}
+
+function getOptelling(index){
     console.log("optelling");
     let minimum = parseInt(document.getElementById("optellenminimum").value);
     let maximum = parseInt(document.getElementById("optellenmaximum").value);
@@ -83,8 +86,11 @@ function getOptelling(){
                 }
                 uitkomst = param1 + param2;
             } while(uitkomst < minimum || uitkomst > maximum);
-            console.log(param1 + " + " + param2 + " = " + uitkomst);
-            $('#insertdiv').append('<p>' + param1 + " + " + param2 + " = " + uitkomst + '</p>');
+            //console.log(param1 + " + " + param2 + " = " + uitkomst);
+            $('#insertdiv').append('<p class="oefening">' 
+                                    + param1 + " + " 
+                                    + param2 + " = " 
+                                    + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
         } else if(aantalparams === 3){
             let param3 = 0;
             do{
@@ -101,7 +107,12 @@ function getOptelling(){
                 param3 = getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3;
             } while(uitkomst < minimum || uitkomst > maximum);
-            console.log(param1 + " + " + param2 + " + " + param3 + " = " + uitkomst);
+            //console.log(param1 + " + " + param2 + " + " + param3 + " = " + uitkomst);
+            $('#insertdiv').append('<p class="oefening">' 
+                                    + param1 + " + " 
+                                    + param2 + " + " 
+                                    + param3 + " = " 
+                                    + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
         } else if(aantalparams === 4){
             let param3 = 0;
             let param4 = 0;
@@ -120,7 +131,13 @@ function getOptelling(){
                 param4 = getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3 + param4;
             } while(uitkomst < minimum || uitkomst > maximum);
-            console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " = " + uitkomst);
+            //console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " = " + uitkomst);
+            $('#insertdiv').append('<p class="oefening">' 
+                                    + param1 + " + " 
+                                    + param2 + " + " 
+                                    + param3 + " + " 
+                                    + param4 + " = " 
+                                    + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
         } else if(aantalparams === 5){
             let param3 = 0;
             let param4 = 0;
@@ -141,8 +158,16 @@ function getOptelling(){
                 param5 = getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3 + param4 + param5;
             } while(uitkomst < minimum || uitkomst > maximum);
-            console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " + " + param5 + " = " + uitkomst);
+            //console.log(param1 + " + " + param2 + " + " + param3 + " + " + param4 + " + " + param5 + " = " + uitkomst);
+            $('#insertdiv').append('<p class="oefening">' 
+                                    + param1 + " + " 
+                                    + param2 + " + " 
+                                    + param3 + " + " 
+                                    + param4 + " + " 
+                                    + param5 + " = " 
+                                    + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
         }
+        return uitkomst;
     } else {
         console.log("Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Optelling met uitkomst tussen 0 en 100 met 2 parameters: 46 + 7 = 53");
         // error

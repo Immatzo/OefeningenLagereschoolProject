@@ -36,3 +36,13 @@ footer {
     margin-bottom: 1%;
     margin-left: 1%;
 }
+
+.oefening {
+    margin-left: 2%;
+    font-size: x-large;
+}
+
+.oplossing {
+    color: black;
+    font-size: x-large;
+}
