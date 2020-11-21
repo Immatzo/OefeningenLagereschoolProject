@@ -6,7 +6,34 @@ function handleStart(){
     let optellingtrue = document.getElementById("optellingoefeninginput").checked;
     let verschiltrue = document.getElementById("verschiloefeninginput").checked;
     if (optellingtrue === true && verschiltrue === true){
-        if(checkParamsOk("optelling") && checkParamsOk("verschil")){
+        getOptellingOefOrVerschilOef(aantal);
+    } else if (optellingtrue === true){
+        getOptellingOef(aantal);
+    } else if (verschiltrue === true){
+        getVerschilOef(aantal);
+    }
+};
+
+function getVerschilOef(aantal){
+    if(checkParamsOk("verschil")){
+        hide("summary");
+        for(let i = 0; i < aantal; i++){
+            oplossingen.push(getVerschil(i));
+        }
+    }
+}
+
+function getOptellingOef(aantal){
+    if(checkParamsOk("optelling")){
+        hide("summary");
+        for(let i = 0; i < aantal; i++){
+            oplossingen.push(getOptelling(i));
+        }
+    }
+}
+
+function getOptellingOefOrVerschilOef(aantal){
+    if(checkParamsOk("optelling") && checkParamsOk("verschil")){
             hide("summary");
             for(let i = 0; i < aantal; i++){
                 let soort = getRndInteger(1, 2); // 1 = optelling, 2 = verschil
@@ -17,22 +44,23 @@ function handleStart(){
                 }
             }
         }
-    } else if (optellingtrue === true){
-        if(checkParamsOk("optelling")){
-            hide("summary");
-            for(let i = 0; i < aantal; i++){
-                oplossingen.push(getOptelling(i));
-            }
-        }
-    } else if (verschiltrue === true){
-        if(checkParamsOk("verschil")){
-            hide("summary");
-            for(let i = 0; i < aantal; i++){
-                oplossingen.push(getVerschil(i));
-            }
-        }
+}
+
+function checkAllOk(functie){
+    if(checkInputOk(functie) && checkParamsOk(functie)){
+        return true;
+    } else {
+        return false;
     }
-};
+}
+
+function checkInputOk(){
+    if(functie === "optelling" || functie === "verschil"){
+        let param1 = document.getElementById(functie + "minimum").value;
+        let param2 = document.getElementById(functie + "maximum").value;
+        let param3 = document.getElementById(functie + "aantalparams").value;
+    }
+}
 
 function checkParamsOk(functie){
     // We ondersteunen 2 tot en met 5 params.
