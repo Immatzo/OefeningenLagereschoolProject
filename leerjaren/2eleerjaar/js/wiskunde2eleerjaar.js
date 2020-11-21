@@ -317,3 +317,32 @@ function getVerschil(index){
         // error
     }
 }
+
+function bodyOnload(){
+    loadFunctionOptions('vermenigvuldiging');
+    loadFunctionOptions('deling');
+}
+
+function loadFunctionOptions(functie){
+    for(let i = 0; i <= 10; i++){
+        $('#'+functie+'_checkboxes').append('<input type="checkbox" class="'+functie+'oefeninginput_item" id="'+functie+'_'+i+'" name="'+functie+'oefeninginput_'+i+'"><label for="'+functie+'oefeninginput_'+i+'" class="'+functie+'_option">'+i+'</label><br>');
+    }
+}
+
+function checkAlleCheckboxes(functie){
+    let alles_status = document.getElementById(functie+"_alles").checked;
+    let checkboxes = document.getElementById(functie+"_checkboxes").getElementsByTagName("input");
+    if (alles_status){
+        for (let i = 1, input; input = checkboxes[i++]; ) {
+
+            // Set each input's value to 'checked'.
+            input.checked = true;
+        }
+    } else {
+        for (let i = 1, input; input = checkboxes[i++]; ) {
+
+            // Set each input's value to 'unchecked'.
+            input.checked = false;
+        }
+    }
+}

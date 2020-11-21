@@ -10,7 +10,7 @@
         <!--<link type="image/x-icon" rel="icon" type="image/png" href="favicon.png" />-->
     </head>
     
-    <body>
+    <body onload="bodyOnload()">
         <header>
             <h1 class="maintitle">Oefeningen rekenen</h1>
         </header>
@@ -21,11 +21,10 @@
             </section>
             <section id="optelling">
                 <div class="subtitlediv">
-                    <input checked="true" type="checkbox" class="optellingoefeninginput" id="optellingoefeninginput" name="optellingoefeninginput">
+                    <input checked="true" type="checkbox" id="optellingoefeninginput" name="optellingoefeninginput">
                     <label for="optellingoefeninginput" class="subtitle">Optelling</label>
                 </div>
                 <div class="options">
-
                     <normaltext>Optelling met uitkomst tussen </normaltext>
                     <input value="0" class="numberinput" id="optellingminimum"/>
                     <normaltext> en </normaltext>
@@ -33,7 +32,6 @@
                     <normaltext> met </normaltext>
                     <input value="2" class="numberinput" id="optellingaantalparams"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
-
                     <input type="checkbox" class="options suboptions" id="optellingeerstegetaltiental" name="someerstegetaltientalcheckbox">
                     <label for="optellingeerstegetaltiental"> Eerste getal is een tiental</label>
                     <input type="checkbox" class="options suboptions" id="optellingtweedegetaltiental" name="somtweedegetaltientalcheckbox">
@@ -43,11 +41,10 @@
             </section>
             <section id="verschil">
                 <div class="subtitlediv">
-                    <input type="checkbox" class="verschiloefeninginput" id="verschiloefeninginput" name="verschiloefeninginput">
+                    <input type="checkbox" id="verschiloefeninginput" name="verschiloefeninginput">
                     <label for="verschiloefeninginput" class="subtitle">Verschil</label>
                 </div>
                 <div class="options">
-
                     <normaltext>Verschil met uitkomst tussen </normaltext>
                     <input class="numberinput" id="verschilminimum"/>
                     <normaltext> en </normaltext>
@@ -55,12 +52,35 @@
                     <normaltext> met </normaltext>
                     <input class="numberinput" id="verschilaantalparams"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
-
-                    <input type="checkbox" class="options suboptions" id="verschileerstegetaltiental" name="someerstegetaltientalcheckbox">
+                    <input type="checkbox" class="suboptions" id="verschileerstegetaltiental" name="someerstegetaltientalcheckbox">
                     <label for="verschileerstegetaltiental"> Eerste getal is een tiental</label>
-                    <input type="checkbox" class="options suboptions" id="verschiltweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                    <input type="checkbox" class="suboptions" id="verschiltweedegetaltiental" name="somtweedegetaltientalcheckbox">
                     <label for="verschiltweedegetaltiental"> Tweede getal is een tiental</label><br>
                     <p id="verschilerror" class="error"></p>
+                </div>
+            </section>
+            <section class="wrapper">
+                <div id="vermenigvuldiging" class="wrapper-item">
+                    <div class="subtitlediv">
+                        <input type="checkbox" class="vermenigvuldigingoefeninginput" id="vermenigvuldigingoefeninginput" name="vermenigvuldigingoefeninginput">
+                        <label for="vermenigvuldigingoefeninginput" class="subtitle">Vermenigvuldiging</label>
+                    </div>
+                    <div id="vermenigvuldiging_checkboxes" class="wrapper-options" >
+                        <input type="checkbox" class="vermenigvuldigingoefeninginput_item" id="vermenigvuldiging_alles" name="vermenigvuldigingoefeninginput_alles" onchange="checkAlleCheckboxes('vermenigvuldiging')">
+                        <label for="vermenigvuldigingoefeninginput_alles" class="vermenigvuldiging_option">Alle maaltafels</label><br>
+                    </div>
+                    <p id="vermenigvuldigingerror" class="error"></p>
+                </div>
+                <div id="deling" class="wrapper-item">
+                    <div class="subtitlediv">
+                        <input type="checkbox" class="delingoefeninginput" id="delingoefeninginput" name="delingoefeninginput">
+                        <label for="delingoefeninginput" class="subtitle">Deling</label>
+                    </div>
+                    <div id="deling_checkboxes" class="wrapper-options">
+                        <input type="checkbox" class="delingoefeninginput_item" id="deling_alles" name="delingoefeninginput_alles" onchange="checkAlleCheckboxes('deling')">
+                        <label for="delingoefeninginput_alles" class="deling_option">Alle deeltafels</label><br>
+                    </div>
+                    <p id="delingerror" class="error"></p>
                 </div>
             </section>
             <br>
@@ -79,6 +99,9 @@
             </div>
         </div>
     </body>
+    <br>
+    <br>
+    <br>
     <footer>
         <p id="footertext">&#169; Copyright by Elise Van Gestel 2020</p>
     </footer>

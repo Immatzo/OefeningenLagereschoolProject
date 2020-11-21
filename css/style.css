@@ -12,11 +12,22 @@ footer {
     margin-left: 2%;
 }
 
+body {
+    margin-left: 2%;
+    margin-top: 1%;
+}
+
+#aantalOefeningen {
+    margin-top: 2%;
+}
+
 .options {
     margin-left: 2%;
 }
 
+
 .suboptions {
+    margin-left: 2%;
     margin-top: 5px;
 }
 
@@ -33,7 +44,6 @@ footer {
 
 .subtitlediv{
     margin-top: 2%;
-    margin-bottom: 1%;
     margin-left: 1%;
 }
 
@@ -57,4 +67,16 @@ footer {
 
 #verschilerror {
     margin-left: 2%;
+}
+
+.wrapper {
+    display: flex
+}
+
+.wrapper-item {
+    min-width: 25%;
+}
+
+.wrapper-options {
+    margin-left: 7%;
 }
