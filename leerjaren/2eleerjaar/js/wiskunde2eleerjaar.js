@@ -59,6 +59,34 @@ function checkInputOk(){
         let param1 = document.getElementById(functie + "minimum").value;
         let param2 = document.getElementById(functie + "maximum").value;
         let param3 = document.getElementById(functie + "aantalparams").value;
+        if(param1 === "" || param2 === "" || param3 === ""){
+            document.getElementById(functie + "error").innerText = "Niet alle nodige gegevens zijn ingevuld.";
+            return false;
+        } else { 
+            return true 
+        }
+    } else if (functie === "vermenigvuldiging" || functie === "deling"){
+        let ingevuld = false;
+        let field_value;
+        for(let i = -1; i <= 10; i++){
+            if(i === -1){
+                field_value = document.getElementById(functie+"_alles").checked;
+                if(field_value){
+                    return true;
+                }
+            } else {
+                field_value = document.getElementById(functie+"_"+i).checked;
+                if(field_value){
+                    ingevuld = true;
+                }
+            }
+        }
+        if(ingevuld){
+            return true;
+        } else {            
+            document.getElementById(functie + "error").innerText = "Er werden geen tafels aangeduid.";
+            return false;
+        }
     }
 }
 
@@ -70,12 +98,12 @@ function checkParamsOk(functie){
         clearError(functie);
         return true;
     } else {    // minder dan 2 of meer dan 5 params
-        throwError(functie);
+        throwParamsError(functie);
         return false;
     }
 }
 
-function throwError(functie){
+function throwParamsError(functie){
     if(parseInt(document.getElementById(functie + "aantalparams").value) <= 1){           // functie minder dan 2 params
         document.getElementById(functie + "error").innerText = "Een " + functie + " moet minstens 2 parameters bevatten!";
     } else if(parseInt(document.getElementById(functie + "aantalparams").value) > 5){     // functie meer dan 5 params
