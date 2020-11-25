@@ -17,20 +17,20 @@
         <div id="summarydiv">
             <section id="aantalOefeningen">
                 <normaltext>Aantal oefeningen: </normaltext>
-                <input value="1" class="numberinput" id="aantalOefeningenInput"/>
+                <input value="10" class="numberinput" id="aantalOefeningenInput"/>
             </section>
             <section id="optelling">
                 <div class="subtitlediv">
-                    <input checked="true" type="checkbox" id="optellingoefeninginput" name="optellingoefeninginput">
+                    <input type="checkbox" id="optellingoefeninginput" name="optellingoefeninginput">
                     <label for="optellingoefeninginput" class="subtitle">Optelling</label>
                 </div>
                 <div class="options">
                     <normaltext>Optelling met uitkomst tussen </normaltext>
-                    <input value="0" class="numberinput" id="optellingminimum"/>
+                    <input class="numberinput" id="optellingminimum"/>
                     <normaltext> en </normaltext>
-                    <input value="100" class="numberinput" id="optellingmaximum"/>
+                    <input class="numberinput" id="optellingmaximum"/>
                     <normaltext> met </normaltext>
-                    <input value="2" class="numberinput" id="optellingaantalparams"/>
+                    <input class="numberinput" id="optellingaantalparams"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
                     <input type="checkbox" class="options suboptions" id="optellingeerstegetaltiental" name="someerstegetaltientalcheckbox">
                     <label for="optellingeerstegetaltiental"> Eerste getal is een tiental</label>
@@ -62,18 +62,18 @@
             <section class="wrapper">
                 <div id="vermenigvuldiging" class="wrapper-item">
                     <div class="subtitlediv">
-                        <input type="checkbox" class="vermenigvuldigingoefeninginput" id="vermenigvuldigingoefeninginput" name="vermenigvuldigingoefeninginput">
+                        <input checked="true" type="checkbox" id="vermenigvuldigingoefeninginput" name="vermenigvuldigingoefeninginput">
                         <label for="vermenigvuldigingoefeninginput" class="subtitle">Vermenigvuldiging</label>
                     </div>
                     <div id="vermenigvuldiging_checkboxes" class="wrapper-options" >
-                        <input type="checkbox" class="vermenigvuldigingoefeninginput_item" id="vermenigvuldiging_alles" name="vermenigvuldigingoefeninginput_alles" onchange="checkAlleCheckboxes('vermenigvuldiging')">
+                        <input checked="true" type="checkbox" class="vermenigvuldigingoefeninginput_item" id="vermenigvuldiging_alles" name="vermenigvuldigingoefeninginput_alles" onchange="checkAlleCheckboxes('vermenigvuldiging')">
                         <label for="vermenigvuldigingoefeninginput_alles" class="vermenigvuldiging_option">Alle maaltafels</label><br>
                     </div>
                     <p id="vermenigvuldigingerror" class="error"></p>
                 </div>
                 <div id="deling" class="wrapper-item">
                     <div class="subtitlediv">
-                        <input type="checkbox" class="delingoefeninginput" id="delingoefeninginput" name="delingoefeninginput">
+                        <input type="checkbox" id="delingoefeninginput" name="delingoefeninginput">
                         <label for="delingoefeninginput" class="subtitle">Deling</label>
                     </div>
                     <div id="deling_checkboxes" class="wrapper-options">
@@ -94,7 +94,7 @@
             </div>
             <div id="buttondiv" >
                 <button onclick="loadsummary()"> Menu </button>
-                <button onclick="handleCheck()"> Verbeteren </button>
+                <button onclick="handleVerbeteren()"> Verbeteren </button>
                 <button onclick="handleStart()"> Nog eens! </button>
             </div>
         </div>
