@@ -640,7 +640,7 @@ function getVermenigvuldigingOrDeling(index, functie){
 
     if(functie === "vermenigvuldiging"){
         $('#insertdiv').append('<p class="oefening">' 
-                                + param1 + " * " 
+                                + param1 + " x " 
                                 + param2 + " = " 
                                 + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
     } else if (functie === "deling"){
