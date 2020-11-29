@@ -17,44 +17,44 @@
         <div id="summarydiv">
             <section id="aantalOefeningen">
                 <normaltext>Aantal oefeningen: </normaltext>
-                <input value="10" class="numberinput" id="aantalOefeningenInput"/>
+                <input class="numberinput" id="aantalOefeningenInput" value="10" placeholder="aantal"/>
             </section>
             <section id="optelling">
                 <div class="subtitlediv">
-                    <input type="checkbox" id="optellingoefeninginput" name="optellingoefeninginput">
+                    <input type="checkbox" id="optellingoefeninginput" name="optellingoefeninginput" onchange="checkAlleOptionsFalse('optelling')">
                     <label for="optellingoefeninginput" class="subtitle">Optelling</label>
                 </div>
                 <div class="options">
                     <normaltext>Optelling met uitkomst tussen </normaltext>
-                    <input class="numberinput" id="optellingminimum"/>
+                    <input class="numberinput" id="optellingminimum" placeholder="minimum"/>
                     <normaltext> en </normaltext>
-                    <input class="numberinput" id="optellingmaximum"/>
+                    <input class="numberinput" id="optellingmaximum" placeholder="maximum"/>
                     <normaltext> met </normaltext>
-                    <input class="numberinput" id="optellingaantalparams"/>
+                    <input class="numberinput" id="optellingaantalparams" value="2" placeholder="aantal"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
-                    <input type="checkbox" class="options suboptions" id="optellingeerstegetaltiental" name="someerstegetaltientalcheckbox">
+                    <input type="checkbox" class="options suboptions" id="optellingeerstegetaltiental" name="someerstegetaltientalcheckbox" onchange="checkOefening('optelling', true)">
                     <label for="optellingeerstegetaltiental"> Eerste getal is een tiental</label>
-                    <input type="checkbox" class="options suboptions" id="optellingtweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                    <input type="checkbox" class="options suboptions" id="optellingtweedegetaltiental" name="somtweedegetaltientalcheckbox" onchange="checkOefening('optelling', true)">
                     <label for="optellingtweedegetaltiental"> Tweede getal is een tiental</label><br>
                     <p id="optellingerror" class="error"></p>
                 </div>
             </section>
             <section id="verschil">
                 <div class="subtitlediv">
-                    <input type="checkbox" id="verschiloefeninginput" name="verschiloefeninginput">
+                    <input type="checkbox" id="verschiloefeninginput" name="verschiloefeninginput" onchange="checkAlleOptionsFalse('verschil')">
                     <label for="verschiloefeninginput" class="subtitle">Verschil</label>
                 </div>
                 <div class="options">
                     <normaltext>Verschil met uitkomst tussen </normaltext>
-                    <input class="numberinput" id="verschilminimum"/>
+                    <input class="numberinput" id="verschilminimum" placeholder="minimum"/>
                     <normaltext> en </normaltext>
-                    <input class="numberinput" id="verschilmaximum"/>
+                    <input class="numberinput" id="verschilmaximum" placeholder="maximum"/>
                     <normaltext> met </normaltext>
-                    <input class="numberinput" id="verschilaantalparams"/>
+                    <input class="numberinput" id="verschilaantalparams" value="2" placeholder="aantal"/>
                     <normaltext> parameters (max. 5 parameters).</normaltext><br>
-                    <input type="checkbox" class="suboptions" id="verschileerstegetaltiental" name="someerstegetaltientalcheckbox">
+                    <input type="checkbox" class="suboptions" id="verschileerstegetaltiental" name="verschileerstegetaltientalcheckbox" onchange="checkOefening('verschil', true)">
                     <label for="verschileerstegetaltiental"> Eerste getal is een tiental</label>
-                    <input type="checkbox" class="suboptions" id="verschiltweedegetaltiental" name="somtweedegetaltientalcheckbox">
+                    <input type="checkbox" class="suboptions" id="verschiltweedegetaltiental" name="verschiltweedegetaltientalcheckbox" onchange="checkOefening('verschil', true)">
                     <label for="verschiltweedegetaltiental"> Tweede getal is een tiental</label><br>
                     <p id="verschilerror" class="error"></p>
                 </div>
@@ -62,22 +62,22 @@
             <section class="wrapper">
                 <div id="vermenigvuldiging" class="wrapper-item">
                     <div class="subtitlediv">
-                        <input type="checkbox" id="vermenigvuldigingoefeninginput" name="vermenigvuldigingoefeninginput">
+                        <input type="checkbox" id="vermenigvuldigingoefeninginput" name="vermenigvuldigingoefeninginput" onchange="checkAlleOptionsFalse('vermenigvuldiging', true)">
                         <label for="vermenigvuldigingoefeninginput" class="subtitle">Vermenigvuldiging</label>
                     </div>
                     <div id="vermenigvuldiging_checkboxes" class="wrapper-options" >
-                        <input type="checkbox" class="vermenigvuldigingoefeninginput_item" id="vermenigvuldiging_alles" name="vermenigvuldigingoefeninginput_alles" onchange="checkAlleCheckboxes('vermenigvuldiging')">
+                        <input type="checkbox" class="vermenigvuldigingoefeninginput_item" id="vermenigvuldiging_alles" name="vermenigvuldigingoefeninginput_alles" onchange="checkOefening('vermenigvuldiging', true), checkAlleOptionCheckboxes('vermenigvuldiging')">
                         <label for="vermenigvuldigingoefeninginput_alles" class="vermenigvuldiging_option">Alle maaltafels</label><br>
                     </div>
                     <p id="vermenigvuldigingerror" class="error"></p>
                 </div>
                 <div id="deling" class="wrapper-item">
                     <div class="subtitlediv">
-                        <input type="checkbox" id="delingoefeninginput" name="delingoefeninginput">
+                        <input type="checkbox" id="delingoefeninginput" name="delingoefeninginput" onchange="checkAlleOptionsFalse('deling')">
                         <label for="delingoefeninginput" class="subtitle">Deling</label>
                     </div>
                     <div id="deling_checkboxes" class="wrapper-options">
-                        <input type="checkbox" class="delingoefeninginput_item" id="deling_alles" name="delingoefeninginput_alles" onchange="checkAlleCheckboxes('deling')">
+                        <input type="checkbox" class="delingoefeninginput_item" id="deling_alles" name="delingoefeninginput_alles" onchange="checkOefening('deling', true), checkAlleOptionCheckboxes('deling')">
                         <label for="delingoefeninginput_alles" class="deling_option">Alle deeltafels</label><br>
                     </div>
                     <p id="delingerror" class="error"></p>
@@ -87,6 +87,10 @@
             <button onclick="handleStart()">
                 Start!
             </button>
+            <button onclick="handleUrl()">
+                Genereer URL!
+            </button>
+            <p id="urlField"></p>
         </div>
         <div id="oefeningdiv" style="display: none">
             <div id="insertdiv">
@@ -95,7 +99,6 @@
             <div id="buttondiv" >
                 <button onclick="loadsummary()"> Menu </button>
                 <button onclick="handleVerbeteren()"> Verbeteren </button>
-                <button onclick="handleStart()"> Nog eens! </button>
             </div>
         </div>
     </body>

@@ -3,264 +3,386 @@
 // constants aanmaken
 // setColor methode aanmaken (voor bij Verbetermethode)
 
+// CONSTANTS & INITIALISATIONS
 var oplossingen = []; // Lijst met oplossingen
+
+
+// ONLOADS
+// Public
+function bodyOnload(){
+    loadFunctionOptions('vermenigvuldiging');
+    loadFunctionOptions('deling');
+}
+
+function loadFunctionOptions(functie){
+    for(let i = 0; i <= 10; i++){
+        $('#'+functie+'_checkboxes').append('<input type="checkbox" class="'+functie+'oefeninginput_item" id="'+functie+'_'+i+'" name="'+functie+'oefeninginput_'+i+'" onchange="checkOefening(\''+ functie + '\', true)"><label for="'+functie+'oefeninginput_'+i+'" class="'+functie+'_option">'+i+'</label><br>');
+    }
+}
+
+function loadsummary(){
+    document.getElementById("summarydiv").style.display = "inline";
+    document.getElementById("oefeningdiv").style.display = "none";
+}
+
+// Private
+function _loadinsert(){
+    document.getElementById("summarydiv").style.display = "none";
+    document.getElementById("oefeningdiv").style.display = "inline";
+}
+
+// CHECKBOXES LOGIC
+// Public
+function checkAlleOptionCheckboxes(functie){
+    let alles_status = document.getElementById(functie+"_alles").checked;
+    if (alles_status){
+        _checkUnckeckAllOptionsVermenigvuldigingAndDeling(functie, true)
+    } else {
+        _checkUnckeckAllOptionsVermenigvuldigingAndDeling(functie, false)
+    }
+}
+
+function checkAlleOptionsFalse(functie){
+    let checked = document.getElementById(functie + "oefeninginput").checked;
+    if(!checked){
+        if(functie === "optelling" || functie === "verschil"){
+            _uncheckTientalCheckboxes(functie);
+        } else if(functie === "vermenigvuldiging" || functie === "deling"){
+            _checkUnckeckAllOptionsVermenigvuldigingAndDeling(functie, false)
+        }
+    }
+}
+
+function checkOefening(functie, bool){
+    document.getElementById(functie + "oefeninginput").checked = bool;
+}
+
+// Private
+function _checkUnckeckAllOptionsVermenigvuldigingAndDeling(functie, bool){
+    let checkboxes = document.getElementById(functie+"_checkboxes").getElementsByTagName("input");
+    for (let i = 1, input; input = checkboxes[i++]; ) {
+        // Set each input's value to bool.
+        input.checked = bool;
+    }
+    document.getElementById(functie + "_alles").checked = bool;
+    checkOefening(functie, bool);
+}
+
+function _uncheckTientalCheckboxes(functie){
+    document.getElementById(functie + "eerstegetaltiental").checked = false;
+    document.getElementById(functie + "tweedegetaltiental").checked = false;
+}
+
+// ERROR HANDLING
+// Public
+// Private
+function _throwError(functie, tekst){
+    document.getElementById(functie + "error").innerText = tekst;
+}
+
+function _clearError(functie){
+    document.getElementById(functie + "error").innerText = "";
+}
+
+function _getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+};
+
+
+// VERBETERFUNCTION
+// Public
+function handleVerbeteren(){
+    let uitkomst = 0;
+    let allesjuist = true;
+    for (let i = 0; i < oplossingen.length; i++){
+        uitkomst = parseInt(document.getElementById("oplossing"+i).value);
+        if(oplossingen[i] === uitkomst){
+            document.getElementById("oplossing"+i).style.backgroundColor = "lightgreen";
+        } else {
+            document.getElementById("oplossing"+i).style.backgroundColor = "red";
+            allesjuist = false;
+        }
+    }
+    if(allesjuist){
+        $('#buttondiv').append('<button onclick="handleStart()"> Nog eens! </button>');
+    }
+}
+// Private
+
+// URL FUNCTION
+// Public
+function handleUrl(){
+    let urlstring = "";
+    urlstring += "https://mathiasv-immalle.github.io/OefeningenLagereschoolProject/leerjaren/2eleerjaar/rekenen.html";
+    document.getElementById("urlField").innerText = urlstring;
+}
+
+// Private
+
+// CREATE EXERCISES
+// Public
 function handleStart(){
-    oplossingen = [];           // Clear lijst met oplossingen
-    $('#insertdiv').html('');   // Clear werkblad
+    // Clear lijst met oplossingen
+    oplossingen = [];
+    // Clear werkblad
+    $('#insertdiv').html('');
+    // Remove "Nog eens!"-knop
+    $('#buttondiv').html('<button onclick="loadsummary()"> Menu </button><button onclick="handleVerbeteren()"> Verbeteren </button>');
     let aantal = document.getElementById("aantalOefeningenInput").value;
     let optellingtrue = document.getElementById("optellingoefeninginput").checked;
     let verschiltrue = document.getElementById("verschiloefeninginput").checked;
     let vermenigvuldigingtrue = document.getElementById("vermenigvuldigingoefeninginput").checked;
     let delingtrue =document.getElementById("delingoefeninginput").checked;
-    getOefeningen(optellingtrue, verschiltrue, vermenigvuldigingtrue, delingtrue, aantal);
+    _getOefeningen(optellingtrue, verschiltrue, vermenigvuldigingtrue, delingtrue, aantal);
 };
 
-function getOefeningen(optellingtrue, verschiltrue, vermenigvuldigingtrue, delingtrue, aantal){
+//Private
+function _getOefeningen(optellingtrue, verschiltrue, vermenigvuldigingtrue, delingtrue, aantal){
     // A = optelling, B = verschil, C = vermenigvuldiging, D = deling
     if(optellingtrue && verschiltrue && vermenigvuldigingtrue && delingtrue){
-        getOptellingOefOrVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal);  //x A B C D
+        _getOptellingOefOrVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal);  //x A B C D
     } else if (optellingtrue && verschiltrue && vermenigvuldigingtrue){
-        getOptellingOefOrVerschilOefOrVermenigvuldigingOef(aantal);             //x A B C
+        _getOptellingOefOrVerschilOefOrVermenigvuldigingOef(aantal);             //x A B C
     } else if (optellingtrue && verschiltrue && delingtrue){ 
-        getOptellingOefOrVerschilOefOrDelingOef(aantal);                        //x A B   D
+        _getOptellingOefOrVerschilOefOrDelingOef(aantal);                        //x A B   D
     } else if (optellingtrue && vermenigvuldigingtrue && delingtrue){ 
-        getOptellingOefOrVermenigvuldigingOefOrDelingOef(aantal);               //x A   C D
+        _getOptellingOefOrVermenigvuldigingOefOrDelingOef(aantal);               //x A   C D
     } else if (verschiltrue && vermenigvuldigingtrue && delingtrue){
-        getVerschilOefOrVermenigvuldigingOefOrDelingOef();                      //x   B C D
+        _getVerschilOefOrVermenigvuldigingOefOrDelingOef();                      //x   B C D
     } else if (optellingtrue && verschiltrue){
-        getOptellingOefOrVerschilOef(aantal);                                   //x A B
+        _getOptellingOefOrVerschilOef(aantal);                                   //x A B
     } else if (optellingtrue && vermenigvuldigingtrue){
-        getOptellingOefOrVermenigvuldigingOef(aantal);                          //x A   C
+        _getOptellingOefOrVermenigvuldigingOef(aantal);                          //x A   C
     } else if (optellingtrue && delingtrue){
-        getOptellingOefOrDelingOef(aantal);                                     //x A     D
+        _getOptellingOefOrDelingOef(aantal);                                     //x A     D
     } else if (verschiltrue && vermenigvuldigingtrue){
-        getVerschilOefOrVermenigvuldigingOef(aantal);                           //x   B C
+        _getVerschilOefOrVermenigvuldigingOef(aantal);                           //x   B C
     } else if (verschiltrue && delingtrue){
-        getVerschilOefOrDelingOef(aantal);                                      //x   B   D
+        _getVerschilOefOrDelingOef(aantal);                                      //x   B   D
     } else if (vermenigvuldigingtrue && delingtrue){
-        getVermenigvuldigingOefOrDelingOef(aantal);                             //x     C D
+        _getVermenigvuldigingOefOrDelingOef(aantal);                             //x     C D
     } else if (optellingtrue){
-        getOptellingOef(aantal);                                                //x A
+        _getOptellingOef(aantal);                                                //x A
     } else if (verschiltrue){
-        getVerschilOef(aantal);                                                 //x   B
+        _getVerschilOef(aantal);                                                 //x   B
     } else if (vermenigvuldigingtrue){
-        getVermenigvuldigingOef(aantal);                                        //x     C
+        _getVermenigvuldigingOef(aantal);                                        //x     C
     } else if (delingtrue){
-        getDelingOef(aantal);                                                   //x       D
+        _getDelingOef(aantal);                                                   //x       D
     }
 }
 
-function getOptellingOefOrVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal){ // A B C D
-    if(checkAllOk("optelling") && checkAllOk("verschil") && checkAllOk("vermenigvuldiging") && checkAllOk("deling")){
-        loadinsert();
+function _getOptellingOefOrVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal){ // A B C D
+    if(_checkAllOk("optelling") && _checkAllOk("verschil") && _checkAllOk("vermenigvuldiging") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 4); // 1 = optelling, 2 = verschil, 3 = vermenigvuldiging 4 = deling
+            let soort = _getRndInteger(1, 4); // 1 = optelling, 2 = verschil, 3 = vermenigvuldiging 4 = deling
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if (soort === 3) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             } else if (soort === 4) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getOptellingOefOrVerschilOefOrVermenigvuldigingOef(aantal){            // A B C
-    if(checkAllOk("optelling") && checkAllOk("verschil") && checkAllOk("vermenigvuldiging")){
-        loadinsert();
+function _getOptellingOefOrVerschilOefOrVermenigvuldigingOef(aantal){            // A B C
+    if(_checkAllOk("optelling") && _checkAllOk("verschil") && _checkAllOk("vermenigvuldiging")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 3); // 1 = optelling, 2 = verschil, 3 = vermenigvuldiging
+            let soort = _getRndInteger(1, 3); // 1 = optelling, 2 = verschil, 3 = vermenigvuldiging
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if (soort === 3) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             }
         }
     }
 }
 
-function getOptellingOefOrVerschilOefOrDelingOef(aantal){                       // A B D
-    if(checkAllOk("optelling") && checkAllOk("verschil") && checkAllOk("deling")){
-        loadinsert();
+function _getOptellingOefOrVerschilOefOrDelingOef(aantal){                       // A B D
+    if(_checkAllOk("optelling") && _checkAllOk("verschil") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 3); // 1 = optelling, 2 = verschil, 3 = deling
+            let soort = _getRndInteger(1, 3); // 1 = optelling, 2 = verschil, 3 = deling
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if (soort === 3) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getOptellingOefOrVermenigvuldigingOefOrDelingOef(aantal){              // A C D
-    if(checkAllOk("optelling") && checkAllOk("vermenigvuldiging") && checkAllOk("deling")){
-        loadinsert();
+function _getOptellingOefOrVermenigvuldigingOefOrDelingOef(aantal){              // A C D
+    if(_checkAllOk("optelling") && _checkAllOk("vermenigvuldiging") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 3); // 1 = optelling, 2 = vermenigvuldiging, 3 = deling
+            let soort = _getRndInteger(1, 3); // 1 = optelling, 2 = vermenigvuldiging, 3 = deling
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             } else if (soort === 3) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal){              // B C D
-    if(checkAllOk("verschil") && checkAllOk("vermenigvuldiging") && checkAllOk("deling")){
-        loadinsert();
+function _getVerschilOefOrVermenigvuldigingOefOrDelingOef(aantal){              // B C D
+    if(_checkAllOk("verschil") && _checkAllOk("vermenigvuldiging") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 3); // 1 = verschil, 2 = vermenigvuldiging, 3 = deling
+            let soort = _getRndInteger(1, 3); // 1 = verschil, 2 = vermenigvuldiging, 3 = deling
             if(soort === 1){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             } else if (soort === 3) {
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getOptellingOefOrVerschilOef(aantal){                                  // A B
-    if(checkAllOk("optelling") && checkAllOk("verschil")){
-        loadinsert();
+function _getOptellingOefOrVerschilOef(aantal){                                  // A B
+    if(_checkAllOk("optelling") && _checkAllOk("verschil")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = optelling, 2 = verschil
+            let soort = _getRndInteger(1, 2); // 1 = optelling, 2 = verschil
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             }
         }
     }
 }
 
-function getOptellingOefOrVermenigvuldigingOef(aantal){                         // A C
-    if(checkAllOk("optelling") && checkAllOk("vermenigvuldiging")){
-        loadinsert();
+function _getOptellingOefOrVermenigvuldigingOef(aantal){                         // A C
+    if(_checkAllOk("optelling") && _checkAllOk("vermenigvuldiging")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = optelling, 2 = vermenigvuldiging
+            let soort = _getRndInteger(1, 2); // 1 = optelling, 2 = vermenigvuldiging
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             }
         }
     }
 }
 
-function getOptellingOefOrDelingOef(aantal){                                    // A D
-    if(checkAllOk("optelling") && checkAllOk("deling")){
-        loadinsert();
+function _getOptellingOefOrDelingOef(aantal){                                    // A D
+    if(_checkAllOk("optelling") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = optelling, 2 = deling
+            let soort = _getRndInteger(1, 2); // 1 = optelling, 2 = deling
             if(soort === 1){
-                oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+                oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getVerschilOefOrVermenigvuldigingOef(aantal){                          // B C
-    if(checkAllOk("verschil") && checkAllOk("vermenigvuldiging")){
-        loadinsert();
+function _getVerschilOefOrVermenigvuldigingOef(aantal){                          // B C
+    if(_checkAllOk("verschil") && _checkAllOk("vermenigvuldiging")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = verschil, 2 = vermenigvuldiging
+            let soort = _getRndInteger(1, 2); // 1 = verschil, 2 = vermenigvuldiging
             if(soort === 1){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             }
         }
     }
 }
 
-function getVerschilOefOrDelingOef(aantal){                                     // B D
-    if(checkAllOk("verschil") && checkAllOk("deling")){
-        loadinsert();
+function _getVerschilOefOrDelingOef(aantal){                                     // B D
+    if(_checkAllOk("verschil") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = verschil, 2 = deling
+            let soort = _getRndInteger(1, 2); // 1 = verschil, 2 = deling
             if(soort === 1){
-                oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+                oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getVermenigvuldigingOefOrDelingOef(aantal){                            // C D
-    if(checkAllOk("vermenigvuldiging") && checkAllOk("deling")){
-        loadinsert();
+function _getVermenigvuldigingOefOrDelingOef(aantal){                            // C D
+    if(_checkAllOk("vermenigvuldiging") && _checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            let soort = getRndInteger(1, 2); // 1 = vermenigvuldiging, 2 = deling
+            let soort = _getRndInteger(1, 2); // 1 = vermenigvuldiging, 2 = deling
             if(soort === 1){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
             } else if(soort === 2){
-                oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+                oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
             }
         }
     }
 }
 
-function getOptellingOef(aantal){                                               // A
-    if(checkAllOk("optelling")){
-        loadinsert();
+function _getOptellingOef(aantal){                                               // A
+    if(_checkAllOk("optelling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            oplossingen.push(getOptelling(i)); // sla oplossing op & maak optelling aan
+            oplossingen.push(_getOptelling(i)); // sla oplossing op & maak optelling aan
         }
     }
 }
 
-function getVerschilOef(aantal){                                                // B
-    if(checkAllOk("verschil")){
-        loadinsert();
+function _getVerschilOef(aantal){                                                // B
+    if(_checkAllOk("verschil")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            oplossingen.push(getVerschil(i)); // sla oplossing op & maak verschil aan
+            oplossingen.push(_getVerschil(i)); // sla oplossing op & maak verschil aan
         }
     }
 }
 
-function getVermenigvuldigingOef(aantal){                                          // C
-    if(checkAllOk("vermenigvuldiging")){
-        loadinsert();
+function _getVermenigvuldigingOef(aantal){                                          // C
+    if(_checkAllOk("vermenigvuldiging")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            oplossingen.push(getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
+            oplossingen.push(_getVermenigvuldigingOrDeling(i, "vermenigvuldiging")); // sla oplossing op & maak vermenigvuldiging aan
         }
     }
 }
 
-function getDelingOef(aantal){                                                     // D
-    if(checkAllOk("deling")){
-        loadinsert();
+function _getDelingOef(aantal){                                                     // D
+    if(_checkAllOk("deling")){
+        _loadinsert();
         for(let i = 0; i < aantal; i++){
-            oplossingen.push(getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
+            oplossingen.push(_getVermenigvuldigingOrDeling(i, "deling")); // sla oplossing op & maak deling aan
         }
     }
 }
 
-function checkAllOk(functie){
+function _checkAllOk(functie){
     if (functie === "optelling" || functie === "verschil"){
-        if(checkInputOk(functie) && checkParamsOk(functie)){
+        if(_checkInputOk(functie) && _checkParamsOk(functie)){
             return true;
         } else {
             return false;
         }
     } else if(functie === "vermenigvuldiging" || functie === "deling"){
-        if(checkInputOk(functie)){
+        if(_checkInputOk(functie)){
             return true;
         } else {
             return false;
@@ -268,17 +390,17 @@ function checkAllOk(functie){
     }
 }
 
-function checkInputOk(functie){
+function _checkInputOk(functie){
     if(functie === "optelling" || functie === "verschil"){
         let param1 = document.getElementById(functie + "minimum").value;
         let param2 = document.getElementById(functie + "maximum").value;
         let param3 = document.getElementById(functie + "aantalparams").value;
         if(param1 === "" || param2 === "" || param3 === ""){
-            throwError(functie, "Niet alle nodige gegevens zijn ingevuld.");
+            _throwError(functie, "Niet alle nodige gegevens zijn ingevuld.");
             //document.getElementById(functie + "error").innerText = "Niet alle nodige gegevens zijn ingevuld.";
             return false;
         } else {
-            clearError(functie);
+            _clearError(functie);
             return true 
         }
     } else if (functie === "vermenigvuldiging" || functie === "deling"){
@@ -298,70 +420,37 @@ function checkInputOk(functie){
             }
         }
         if(ingevuld){
-            clearError(functie);
+            _clearError(functie);
             return true;
         } else {       
-            throwError(functie, "Er werden geen tafels aangeduid.");  
-            //document.getElementById(functie + "error").innerText = "Er werden geen tafels aangeduid.";
+            _throwError(functie, "Er werden geen tafels aangeduid.");  
             return false;
         }
     }
 }
 
-function checkParamsOk(functie){
+function _checkParamsOk(functie){
     // We ondersteunen 2 tot en met 5 params.
     let aantalparams = document.getElementById(functie + "aantalparams").value;
     if(aantalparams >= 2 && aantalparams <= 5){ // meer of gelijk aan 2 params, minder of gelijk aan 5 params       
         // meer dan 1 en minder dan 6 params
-        clearError(functie);
+        _clearError(functie);
         return true;
     } else if(aantalparams < 2){ // functie minder dan 2 params
         let tekst = "Een " + functie + " moet minstens 2 parameters bevatten!";
-        throwError(functie, tekst);
+        _throwError(functie, tekst);
         return false;
         //document.getElementById(functie + "error").innerText = "Een " + functie + " moet minstens 2 parameters bevatten!";
     } else if(aantalparams > 5){  // functie meer dan 5 params
-        throwError(functie, "We ondersteunen enkel oefeningen tot en met 5 parameters.");
+        _throwError(functie, "We ondersteunen enkel oefeningen tot en met 5 parameters.");
         return false;
         //document.getElementById(functie + "error").innerText = "We ondersteunen enkel oefeningen tot en met 5 parameters.";
     }
 }
 
-function throwError(functie, tekst){
-    document.getElementById(functie + "error").innerText = tekst;
-}
-
-function clearError(functie){
-    document.getElementById(functie + "error").innerText = "";
-}
-
-function loadsummary(){
-    document.getElementById("summarydiv").style.display = "inline";
-    document.getElementById("oefeningdiv").style.display = "none";
-}
-
-function loadinsert(){
-    document.getElementById("summarydiv").style.display = "none";
-    document.getElementById("oefeningdiv").style.display = "inline";
-}
-
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
-};
-
-function handleVerbeteren(){
-    let uitkomst = 0;
-    for (let i = 0; i < oplossingen.length; i++){
-        uitkomst = parseInt(document.getElementById("oplossing"+i).value);
-        if(oplossingen[i] === uitkomst){
-            document.getElementById("oplossing"+i).style.backgroundColor = "lightgreen";
-        } else {
-            document.getElementById("oplossing"+i).style.backgroundColor = "red";
-        }
-    }
-}
-
-function getOptelling(index){
+// EXERCISES
+// Optelling
+function _getOptelling(index){
     let minimum = parseInt(document.getElementById("optellingminimum").value);
     let maximum = parseInt(document.getElementById("optellingmaximum").value);
     let aantalparams = parseInt(document.getElementById("optellingaantalparams").value);
@@ -374,14 +463,14 @@ function getOptelling(index){
         if(aantalparams === 2){
             do {
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
                 uitkomst = param1 + param2;
             } while(uitkomst < minimum || uitkomst > maximum);
@@ -393,16 +482,16 @@ function getOptelling(index){
             let param3 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -415,17 +504,17 @@ function getOptelling(index){
             let param4 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
-                param4 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
+                param4 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3 + param4;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -440,18 +529,18 @@ function getOptelling(index){
             let param5 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
-                param4 = getRndInteger(minimum, maximum);
-                param5 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
+                param4 = _getRndInteger(minimum, maximum);
+                param5 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 + param2 + param3 + param4 + param5;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -464,12 +553,13 @@ function getOptelling(index){
         }
         return uitkomst;
     } else {
-        throwError("optelling", "Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Optelling met uitkomst tussen 0 en 100 met 2 parameters: 46 + 7 = 53")
+        _throwError("optelling", "Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Optelling met uitkomst tussen 0 en 100 met 2 parameters: 46 + 7 = 53")
         loadsummary();
     }
 }
 
-function getVerschil(index){
+// Verschil
+function _getVerschil(index){
     let minimum = parseInt(document.getElementById("verschilminimum").value);
     let maximum = parseInt(document.getElementById("verschilmaximum").value);
     let aantalparams = parseInt(document.getElementById("verschilaantalparams").value);
@@ -482,14 +572,14 @@ function getVerschil(index){
         if(aantalparams === 2){
             do {
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
                 uitkomst = param1 - param2;
             } while(uitkomst < minimum || uitkomst > maximum);
@@ -501,16 +591,16 @@ function getVerschil(index){
             let param3 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 - param2 - param3;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -523,17 +613,17 @@ function getVerschil(index){
             let param4 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
-                param4 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
+                param4 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 - param2 - param3 - param4;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -548,18 +638,18 @@ function getVerschil(index){
             let param5 = 0;
             do{
                 if(eerstegetaltiental === true){
-                    param1 = getRndInteger(0, 10) * 10;
+                    param1 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param1 = getRndInteger(minimum, maximum);
+                    param1 = _getRndInteger(minimum, maximum);
                 }
                 if(tweedegetaltiental === true){
-                    param2 = getRndInteger(0, 10) * 10;
+                    param2 = _getRndInteger(0, 10) * 10;
                 } else {
-                    param2 = getRndInteger(minimum, maximum);
+                    param2 = _getRndInteger(minimum, maximum);
                 }
-                param3 = getRndInteger(minimum, maximum);
-                param4 = getRndInteger(minimum, maximum);
-                param5 = getRndInteger(minimum, maximum);
+                param3 = _getRndInteger(minimum, maximum);
+                param4 = _getRndInteger(minimum, maximum);
+                param5 = _getRndInteger(minimum, maximum);
                 uitkomst = param1 - param2 - param3 - param4 - param5;
             } while(uitkomst < minimum || uitkomst > maximum);
             $('#insertdiv').append('<p class="oefening">' 
@@ -572,44 +662,13 @@ function getVerschil(index){
         }
         return uitkomst;
     } else {
-        throwError("verschil", "Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Verschil met uitkomst tussen 0 en 100 met 2 parameters: 85 - 63 = 22")
+        _throwError("verschil", "Het minimum kan niet groter zijn dan het maximum. Voorbeeld: Verschil met uitkomst tussen 0 en 100 met 2 parameters: 85 - 63 = 22")
         loadsummary();
     }
 }
 
-function bodyOnload(){
-    loadFunctionOptions('vermenigvuldiging');
-    loadFunctionOptions('deling');
-}
-
-function loadFunctionOptions(functie){
-    for(let i = 0; i <= 10; i++){
-        $('#'+functie+'_checkboxes').append('<input type="checkbox" class="'+functie+'oefeninginput_item" id="'+functie+'_'+i+'" name="'+functie+'oefeninginput_'+i+'"><label for="'+functie+'oefeninginput_'+i+'" class="'+functie+'_option">'+i+'</label><br>');
-    }
-}
-
-function checkAlleCheckboxes(functie){
-    let alles_status = document.getElementById(functie+"_alles").checked;
-    let checkboxes = document.getElementById(functie+"_checkboxes").getElementsByTagName("input");
-    if (alles_status){
-        for (let i = 1, input; input = checkboxes[i++]; ) {
-            // Set each input's value to 'checked'.
-            input.checked = true;
-        }
-    } else {
-        for (let i = 1, input; input = checkboxes[i++]; ) {
-            // Set each input's value to 'unchecked'.
-            input.checked = false;
-        }
-    }
-}
-
-function getMeervoudVan(getal){
-    let meervoud = getRndInteger(0, 10) * getal;
-    return meervoud;
-}
-
-function getVermenigvuldigingOrDeling(index, functie){
+// Vermenigvuldiging OR Deling
+function _getVermenigvuldigingOrDeling(index, functie){
     let tafelalles = document.getElementById(functie + "_alles").checked;
     let tafel0 = document.getElementById(functie + "_0").checked;
     let tafel1 = document.getElementById(functie + "_1").checked;
@@ -625,19 +684,12 @@ function getVermenigvuldigingOrDeling(index, functie){
     let param1 = 0;
     let param2 = 0;
     let uitkomst = 0;
-
-    if(tafelalles){
-        param2 = getRndInteger(0, 10);
-    } else if(tafel5){
-        param2 = 5;
-    }
-
+    param2 = _getParam2(tafelalles, tafel0, tafel1, tafel2, tafel3, tafel4, tafel5, tafel6, tafel7, tafel8, tafel9, tafel10);
     if(functie === "vermenigvuldiging"){
-        param1 = getRndInteger(0, 10);
+        param1 = _getRndInteger(0, 10);
     } else if(functie === "deling"){
-        param1 = getMeervoudVan(param2);
+        param1 = _getMeervoudVan(param2);
     }
-
     if(functie === "vermenigvuldiging"){
         $('#insertdiv').append('<p class="oefening">' 
                                 + param1 + " x " 
@@ -649,12 +701,90 @@ function getVermenigvuldigingOrDeling(index, functie){
                                 + param2 + " = " 
                                 + "<input class=\"oplossing\" id=\"oplossing" + index + "\"/>" + "</p>");
     }
-
     if(functie === "vermenigvuldiging"){
         uitkomst = param1 * param2;
     } else if(functie === "deling"){
         uitkomst = param1 / param2;
     }
-
     return uitkomst;
+}
+
+function _getParam2(tafelalles, tafel0, tafel1, tafel2, tafel3, tafel4, tafel5, tafel6, tafel7, tafel8, tafel9, tafel10){
+    let param2 = 0;
+    if(tafelalles){
+        param2 = _getRndInteger(0, 10);
+    } else {
+        var list = [];
+        if(tafel0){
+            list.push("0");
+        }
+        if(tafel1){
+            list.push("1");
+        }
+        if(tafel2){
+            list.push("2");
+        }
+        if(tafel3){
+            list.push("3");
+        }
+        if(tafel4){
+            list.push("4");
+        }
+        if(tafel5){
+            list.push("5");
+        }
+        if(tafel6){
+            list.push("6");
+        }
+        if(tafel7){
+            list.push("7");
+        }
+        if(tafel8){
+            list.push("8");
+        }
+        if(tafel9){
+            list.push("9");
+        }
+        if(tafel10){
+            list.push("10");
+        }
+    }
+    param2 =  _getParamOption(list);
+    return param2;
+}
+
+function _getParamOption(list){
+    let param2 = 0;
+    if(list.length === 10){
+        param2 = _getRandomParam(10, list);
+    } else if(list.length === 9){
+        param2 = _getRandomParam(9, list);
+    } else if(list.length === 8){
+        param2 = _getRandomParam(8, list);
+    } else if(list.length === 7){
+        param2 = _getRandomParam(7, list);
+    } else if(list.length === 6){
+        param2 = _getRandomParam(6, list);
+    } else if(list.length === 5){
+        param2 = _getRandomParam(5, list);
+    } else if(list.length === 4){
+        param2 = _getRandomParam(4, list);
+    } else if(list.length === 3){
+        param2 = _getRandomParam(3, list);
+    } else if(list.length === 2){
+        param2 = _getRandomParam(2, list);
+    } else if(list.length === 1){
+        param2 = _getRandomParam(1, list);
+    }
+    return param2;
+}
+
+function _getMeervoudVan(getal){
+    let meervoud = _getRndInteger(0, 10) * getal;
+    return meervoud;
+}
+
+function _getRandomParam(aantal, list){
+    let randomgetal = _getRndInteger(0, aantal-1);
+    return list[randomgetal];
 }

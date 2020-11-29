@@ -32,7 +32,7 @@ body {
 }
 
 .numberinput {
-    width: 50px;
+    width: 75px;
     text-align: center;
     color: red;
 }
@@ -79,4 +79,8 @@ body {
 
 .wrapper-options {
     margin-left: 7%;
+}
+
+#urlField {
+    color: blue;
 }
