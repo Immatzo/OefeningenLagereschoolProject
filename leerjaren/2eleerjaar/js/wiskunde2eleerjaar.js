@@ -1,7 +1,7 @@
-// wanneer vermenigvuldiging of deling uitgevinkt, alle checkboxen uitgevinkt
-// moet nog vermenigvuldiging en deling 0, 1, 2, 3, 4, 6, 7, 8, 9, 10 aanmaken, + combinaties van allemaal (ook 5)
 // constants aanmaken
 // setColor methode aanmaken (voor bij Verbetermethode)
+// errors wegdoen wanneer functie niet meer geselecteerd is
+// url-functie
 
 // CONSTANTS & INITIALISATIONS
 var oplossingen = []; // Lijst met oplossingen
