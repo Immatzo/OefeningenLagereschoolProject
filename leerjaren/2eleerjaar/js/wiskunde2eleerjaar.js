@@ -7,6 +7,13 @@
 // onderzoek reformatting optellingoef en verschiloef
 
 // CONSTANTS & INITIALISATIONS
+// Constants
+var MINIMUM_AANTAL_PARAMS = 2;
+var MAXIMUM_AANTAL_PARAMS = 5;
+var AANTAL_CHECKBOX_FUNCTIONOPTIONS = 10;
+
+
+// Initialisations
 var oplossingen = []; // Lijst met oplossingen
 
 // ONLOADS
@@ -17,7 +24,7 @@ function bodyOnload(){
 }
 
 function loadFunctionOptions(functie){
-    for(let i = 0; i <= 10; i++){
+    for(let i = 0; i <= AANTAL_CHECKBOX_FUNCTIONOPTIONS; i++){
         $('#'+functie+'_checkboxes').append('<input type="checkbox" class="'+functie+'oefeninginput_item" id="'+functie+'_'+i+'" name="'+functie+'oefeninginput_'+i+'" onchange="checkOefening(\''+ functie + '\', true)"><label for="'+functie+'oefeninginput_'+i+'" class="'+functie+'_option">'+i+'</label><br>');
     }
 }
@@ -529,7 +536,7 @@ function _checkInputOk(functie){
     } else if (functie === "vermenigvuldiging" || functie === "deling"){
         let ingevuld = false;
         let field_value;
-        for(let i = -1; i <= 10; i++){
+        for(let i = -1; i <= AANTAL_CHECKBOX_FUNCTIONOPTIONS; i++){
             if(i === -1){
                 field_value = document.getElementById(functie+"_alles").checked;
                 if(field_value){
@@ -553,19 +560,19 @@ function _checkInputOk(functie){
 }
 
 function _checkParamsOk(functie){
-    // We ondersteunen 2 tot en met 5 params.
+    // We ondersteunen 2 tot en met 5 params (MINIMUM_AANTAL_PARAMS = 2 && MAXIMUM_AANTAL_PARAMS = 5)
     let aantalparams = document.getElementById(functie + "aantalparams").value;
-    if(aantalparams >= 2 && aantalparams <= 5){ // meer of gelijk aan 2 params, minder of gelijk aan 5 params       
+    if(aantalparams >= MINIMUM_AANTAL_PARAMS && aantalparams <= MAXIMUM_AANTAL_PARAMS){ // meer of gelijk aan 2 params, minder of gelijk aan 5 params       
         // meer dan 1 en minder dan 6 params
         _clearError(functie);
         return true;
-    } else if(aantalparams < 2){ // functie minder dan 2 params
-        let tekst = "Een " + functie + " moet minstens 2 parameters bevatten!";
+    } else if(aantalparams < MINIMUM_AANTAL_PARAMS){ // functie minder dan 2 params
+        let tekst = "Een " + functie + " moet minstens " + MINIMUM_AANTAL_PARAMS + " parameters bevatten!";
         _throwError(functie, tekst);
         return false;
         //document.getElementById(functie + "error").innerText = "Een " + functie + " moet minstens 2 parameters bevatten!";
-    } else if(aantalparams > 5){  // functie meer dan 5 params
-        _throwError(functie, "We ondersteunen enkel oefeningen tot en met 5 parameters.");
+    } else if(aantalparams > MAXIMUM_AANTAL_PARAMS){  // functie meer dan 5 params
+        _throwError(functie, "We ondersteunen enkel oefeningen tot en met " + MAXIMUM_AANTAL_PARAMS + " parameters.");
         return false;
         //document.getElementById(functie + "error").innerText = "We ondersteunen enkel oefeningen tot en met 5 parameters.";
     }
@@ -871,43 +878,17 @@ function _getParam2(tafelalles, tafel0, tafel1, tafel2, tafel3, tafel4, tafel5, 
         if(tafel10){
             list.push("10");
         }
-        param2 =  _getParamOption(list);
+        param2 = _getRandomParam(list);
     }
     return param2;
 }
 
-function _getParamOption(list){
-    let param2 = 0;
-    if(list.length === 10){
-        param2 = _getRandomParam(10, list);
-    } else if(list.length === 9){
-        param2 = _getRandomParam(9, list);
-    } else if(list.length === 8){
-        param2 = _getRandomParam(8, list);
-    } else if(list.length === 7){
-        param2 = _getRandomParam(7, list);
-    } else if(list.length === 6){
-        param2 = _getRandomParam(6, list);
-    } else if(list.length === 5){
-        param2 = _getRandomParam(5, list);
-    } else if(list.length === 4){
-        param2 = _getRandomParam(4, list);
-    } else if(list.length === 3){
-        param2 = _getRandomParam(3, list);
-    } else if(list.length === 2){
-        param2 = _getRandomParam(2, list);
-    } else if(list.length === 1){
-        param2 = _getRandomParam(1, list);
-    }
-    return param2;
-}
-
-function _getMeervoudVan(getal){
+function _getMeervoudVan(getal){    // Vraag een random meervoud van een getal op
     let meervoud = _getRndInteger(0, 10) * getal;
     return meervoud;
 }
 
-function _getRandomParam(aantal, list){
-    let randomgetal = _getRndInteger(0, aantal-1);
+function _getRandomParam(list){     // Vraag een random parameter uit de lijst op
+    let randomgetal = _getRndInteger(0, list.length-1);
     return list[randomgetal];
 }
