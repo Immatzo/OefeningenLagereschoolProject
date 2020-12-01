@@ -183,10 +183,20 @@ function _getUrlString(functie){
 }
 
 function _getUrlStringOptellingOrVerschil(functie){
+    let tempurl = "";
     let minimum = document.getElementById(functie + "minimum").value;
     let maximum = document.getElementById(functie + "maximum").value;
     let aantalparams = document.getElementById(functie + "aantalparams").value;
-    return "&" + functie + "=" + minimum + "-" + maximum + "-" + aantalparams;
+    let eerstegetaltiental = document.getElementById(functie + "eerstegetaltiental").checked;
+    let tweedegetaltiental = document.getElementById(functie + "tweedegetaltiental").checked;
+    tempurl = "&" + functie + "=" + minimum + "-" + maximum + "-" + aantalparams;
+    if(eerstegetaltiental){
+        tempurl += "-opteerstegetaltiental";
+    }
+    if(tweedegetaltiental){
+        tempurl += "-opttweedegetaltiental";
+    }
+    return tempurl;
 }
 
 function _getUrlStringVermenigvuldigingOrDeling(functie){
