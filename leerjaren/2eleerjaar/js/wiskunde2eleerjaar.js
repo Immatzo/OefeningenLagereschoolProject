@@ -2,6 +2,7 @@
 // setColor methode aanmaken (voor bij Verbetermethode)
 // errors wegdoen wanneer functie niet meer geselecteerd is
 // url-functie
+// force numeric input in inputfields
 
 // CONSTANTS & INITIALISATIONS
 var oplossingen = []; // Lijst met oplossingen
@@ -112,12 +113,139 @@ function handleVerbeteren(){
 // URL FUNCTION
 // Public
 function handleUrl(){
-    let urlstring = "";
-    urlstring += "https://mathiasv-immalle.github.io/OefeningenLagereschoolProject/leerjaren/2eleerjaar/rekenen.html";
-    document.getElementById("urlField").innerText = urlstring;
+    let aantal = document.getElementById("aantalOefeningenInput").value;
+    let optellingtrue = document.getElementById("optellingoefeninginput").checked;
+    let verschiltrue = document.getElementById("verschiloefeninginput").checked;
+    let vermenigvuldigingtrue = document.getElementById("vermenigvuldigingoefeninginput").checked;
+    let delingtrue = document.getElementById("delingoefeninginput").checked;
+    let newUrl = "";
+    let urlString = "?";
+    if(urlString != ""){    // Clear all params
+        newUrl = window.location.href.substring(0, (window.location.href.length - window.location.search.length));
+    }
+    
+    if(aantal != 0){
+        urlString += "aantal=" + aantal;
+        if(optellingtrue){
+            let functie = "optelling";
+            let tempstring = _getUrlString(functie);
+            if(tempstring.includes(functie)){
+                urlString += tempstring;
+            } else {
+                _throwError(functie, tempstring);
+            }
+        }
+        if(verschiltrue){
+            let functie = "verschil";
+            let tempstring = _getUrlString(functie);
+            if(tempstring.includes(functie)){
+                urlString += tempstring;
+            } else {
+                _throwError(functie, tempstring);
+            }
+        }
+        if(vermenigvuldigingtrue){
+            let functie = "vermenigvuldiging";
+            let tempstring = _getUrlString(functie);
+            if(tempstring.includes(functie)){
+                urlString += tempstring;
+            } else {
+                _throwError(functie, tempstring);
+            }
+        }
+        if(delingtrue){
+            let functie = "deling";
+            let tempstring = _getUrlString(functie);
+            if(tempstring.includes(functie)){
+                urlString += tempstring;
+            } else {
+                _throwError(functie, tempstring);
+            }
+        }
+    } else {
+        // foutmelding
+    }
+
+    console.log(urlString);
+
+    //window.location.href = window.location.href + urlstring;
+    document.getElementById("urlField").innerText = window.location.href + urlString;
 }
 
 // Private
+
+function _getUrlString(functie){
+    if(functie === "optelling" || functie === "verschil"){
+        return _getUrlStringOptellingOrVerschil(functie);
+    } else if(functie === "vermenigvuldiging" || functie === "deling"){
+        return _getUrlStringVermenigvuldigingOrDeling(functie);
+    }
+}
+
+function _getUrlStringOptellingOrVerschil(functie){
+    let minimum = document.getElementById(functie + "minimum").value;
+    let maximum = document.getElementById(functie + "maximum").value;
+    let aantalparams = document.getElementById(functie + "aantalparams").value;
+    return "&" + functie + "=" + minimum + "-" + maximum + "-" + aantalparams;
+}
+
+function _getUrlStringVermenigvuldigingOrDeling(functie){
+    let tafelalles = document.getElementById(functie + "_alles").checked;
+    if(tafelalles){
+        return "&"+ functie + "=" + "alles";
+    } else {
+        let tafelstring = "";
+        let tafel0 = document.getElementById(functie + "_0").checked;
+        let tafel1 = document.getElementById(functie + "_1").checked;
+        let tafel2 = document.getElementById(functie + "_2").checked;
+        let tafel3 = document.getElementById(functie + "_3").checked;
+        let tafel4 = document.getElementById(functie + "_4").checked;
+        let tafel5 = document.getElementById(functie + "_5").checked;
+        let tafel6 = document.getElementById(functie + "_6").checked;
+        let tafel7 = document.getElementById(functie + "_7").checked;
+        let tafel8 = document.getElementById(functie + "_8").checked;
+        let tafel9 = document.getElementById(functie + "_9").checked;
+        let tafel10 = document.getElementById(functie + "_10").checked;
+        if(!tafel0 && !tafel1 && !tafel2 && !tafel3 && !tafel4 && !tafel5 && !tafel6 && !tafel7 && !tafel8 && !tafel9 && !tafel10){
+            return "Er werden geen tafels aangeduid bij de " + functie + ".";
+        } else {
+            if(tafel0){
+                tafelstring += "0";
+            }
+            if(tafel1 && tafelstring === ""){
+                tafelstring += "1";
+            } else if(tafel1 && tafelstring !== ""){tafelstring += "-1"}
+            if(tafel2 && tafelstring === ""){
+                tafelstring += "2";
+            } else if(tafel2 && tafelstring !== ""){tafelstring += "-2"}
+            if(tafel3 && tafelstring === ""){
+                tafelstring += "3";
+            } else if(tafel3 && tafelstring !== ""){tafelstring += "-3"}
+            if(tafel4 && tafelstring === ""){
+                tafelstring += "4";
+            } else if(tafel4 && tafelstring !== ""){tafelstring += "-4"}
+            if(tafel5 && tafelstring === ""){
+                tafelstring += "5";
+            } else if(tafel5 && tafelstring !== ""){tafelstring += "-5"}
+            if(tafel6 && tafelstring === ""){
+                tafelstring += "6";
+            } else if(tafel6 && tafelstring !== ""){tafelstring += "-6"}
+            if(tafel7 && tafelstring === ""){
+                tafelstring += "7";
+            } else if(tafel7 && tafelstring !== ""){tafelstring += "-7"}
+            if(tafel8 && tafelstring === ""){
+                tafelstring += "8";
+            } else if(tafel8 && tafelstring !== ""){tafelstring += "-8"}
+            if(tafel9 && tafelstring === ""){
+                tafelstring += "9";
+            } else if(tafel9 && tafelstring !== ""){tafelstring += "-9"}
+            if(tafel10 && tafelstring === ""){
+                tafelstring += "10";
+            } else if(tafel10 && tafelstring !== ""){tafelstring += "-10"}
+            return "&" + functie + "=" + tafelstring;
+        }
+    }
+}
 
 // CREATE EXERCISES
 // Public
@@ -748,8 +876,8 @@ function _getParam2(tafelalles, tafel0, tafel1, tafel2, tafel3, tafel4, tafel5, 
         if(tafel10){
             list.push("10");
         }
+        param2 =  _getParamOption(list);
     }
-    param2 =  _getParamOption(list);
     return param2;
 }
 
