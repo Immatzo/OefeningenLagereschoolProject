@@ -1,17 +1,19 @@
-// constants aanmaken
+// TODO
 // setColor methode aanmaken (voor bij Verbetermethode)
 // errors wegdoen wanneer functie niet meer geselecteerd is
+// errors wegdoen wanneer functie juist verloopt
+// url houdt geen rekening met errors van oefeningen zelf (bv niet alle gegevens ingevuld)
 // url_function onload
 // force numeric input in inputfields
 // onderzoek mogelijkheid van enum voor functies
 // onderzoek reformatting optellingoef en verschiloef
+// url error = geen url meer weergeven
 
 // CONSTANTS & INITIALISATIONS
 // Constants
 var MINIMUM_AANTAL_PARAMS = 2;
 var MAXIMUM_AANTAL_PARAMS = 5;
 var AANTAL_CHECKBOX_FUNCTIONOPTIONS = 10;
-
 
 // Initialisations
 var oplossingen = []; // Lijst met oplossingen
