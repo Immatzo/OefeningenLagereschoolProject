@@ -1,12 +1,13 @@
 // constants aanmaken
 // setColor methode aanmaken (voor bij Verbetermethode)
 // errors wegdoen wanneer functie niet meer geselecteerd is
-// url-functie
+// url_function onload
 // force numeric input in inputfields
+// onderzoek mogelijkheid van enum voor functies
+// onderzoek reformatting optellingoef en verschiloef
 
 // CONSTANTS & INITIALISATIONS
 var oplossingen = []; // Lijst met oplossingen
-
 
 // ONLOADS
 // Public
@@ -113,6 +114,7 @@ function handleVerbeteren(){
 // URL FUNCTION
 // Public
 function handleUrl(){
+    _clearError("url");     // Clear previous errors 
     let aantal = document.getElementById("aantalOefeningenInput").value;
     let optellingtrue = document.getElementById("optellingoefeninginput").checked;
     let verschiltrue = document.getElementById("verschiloefeninginput").checked;
@@ -125,55 +127,37 @@ function handleUrl(){
     }
     
     if(aantal != 0){
-        urlString += "aantal=" + aantal;
-        if(optellingtrue){
-            let functie = "optelling";
-            let tempstring = _getUrlString(functie);
-            if(tempstring.includes(functie)){
-                urlString += tempstring;
-            } else {
-                _throwError(functie, tempstring);
+        if(optellingtrue || verschiltrue || vermenigvuldigingtrue || delingtrue){
+            urlString += "aantal=" + aantal;
+            if(optellingtrue){
+                let functie = "optelling";
+                urlString += _getUrlString(functie);
             }
-        }
-        if(verschiltrue){
-            let functie = "verschil";
-            let tempstring = _getUrlString(functie);
-            if(tempstring.includes(functie)){
-                urlString += tempstring;
-            } else {
-                _throwError(functie, tempstring);
+            if(verschiltrue){
+                let functie = "verschil";
+                urlString += _getUrlString(functie);
             }
-        }
-        if(vermenigvuldigingtrue){
-            let functie = "vermenigvuldiging";
-            let tempstring = _getUrlString(functie);
-            if(tempstring.includes(functie)){
-                urlString += tempstring;
-            } else {
-                _throwError(functie, tempstring);
+            if(vermenigvuldigingtrue){
+                let functie = "vermenigvuldiging";
+                urlString += _getUrlString(functie);
             }
-        }
-        if(delingtrue){
-            let functie = "deling";
-            let tempstring = _getUrlString(functie);
-            if(tempstring.includes(functie)){
-                urlString += tempstring;
-            } else {
-                _throwError(functie, tempstring);
+            if(delingtrue){
+                let functie = "deling";
+                urlString += _getUrlString(functie);
             }
+            console.log(urlString);
+            if(!urlString.includes("error")){
+                document.getElementById("urlField").innerText = window.location.href + urlString;
+            }
+        } else {
+            _throwError("url", "Er werden nog geen oefeningen aangeduid.");
         }
     } else {
-        // foutmelding
+        _throwError("url", "Er moet minstens 1 oefening worden aangevraagd.");
     }
-
-    console.log(urlString);
-
-    //window.location.href = window.location.href + urlstring;
-    document.getElementById("urlField").innerText = window.location.href + urlString;
 }
 
 // Private
-
 function _getUrlString(functie){
     if(functie === "optelling" || functie === "verschil"){
         return _getUrlStringOptellingOrVerschil(functie);
@@ -217,7 +201,8 @@ function _getUrlStringVermenigvuldigingOrDeling(functie){
         let tafel9 = document.getElementById(functie + "_9").checked;
         let tafel10 = document.getElementById(functie + "_10").checked;
         if(!tafel0 && !tafel1 && !tafel2 && !tafel3 && !tafel4 && !tafel5 && !tafel6 && !tafel7 && !tafel8 && !tafel9 && !tafel10){
-            return "Er werden geen tafels aangeduid bij de " + functie + ".";
+            _throwError(functie, "Er werden geen tafels aangeduid bij de " + functie + ".");
+            return "error";
         } else {
             if(tafel0){
                 tafelstring += "0";
